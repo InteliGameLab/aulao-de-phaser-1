@@ -19,26 +19,30 @@ export class NPC extends Phaser.GameObjects.Sprite {
    * @param {string}  dialogRaw - Dialog string, pages separated by '|'
    */
   constructor(scene, x, y, name, dialogRaw) {
-    super(scene, x, y, 'npc');
+    super(scene, x, y, "npc");
 
     scene.add.existing(this);
 
-    this.npcName  = name;
-    this.dialogPages = dialogRaw.split('|').map(s => s.trim()).filter(Boolean);
+    this.npcName = name;
+    this.dialogPages = dialogRaw
+      .split("|")
+      .map((s) => s.trim())
+      .filter(Boolean);
 
     // "!" indicator shown above the NPC when the player is nearby
-    this._indicator = scene.add.image(x, y - 30, 'indicator')
+    this._indicator = scene.add
+      .image(x, y - 30, "indicator")
       .setVisible(false)
       .setDepth(10);
 
     // Floating bounce tween on the indicator
     scene.tweens.add({
-      targets:  this._indicator,
-      y:        y - 38,
+      targets: this._indicator,
+      y: y - 38,
       duration: 500,
-      yoyo:     true,
-      repeat:   -1,
-      ease:     'Sine.easeInOut',
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
     });
   }
 

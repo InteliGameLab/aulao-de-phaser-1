@@ -12,7 +12,7 @@
  *   - Emit 'player:interact' with the nearest interactive object
  */
 
-import { PLAYER_SPEED, INTERACT_RADIUS } from '../config.js';
+import { PLAYER_SPEED, INTERACT_RADIUS } from "../config.js";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   /**
@@ -21,7 +21,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
    * @param {number}       y      - World y position
    */
   constructor(scene, x, y) {
-    super(scene, x, y, 'player');
+    super(scene, x, y, "player");
 
     // Add to scene display list and physics world
     scene.add.existing(this);
@@ -35,10 +35,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     // Input cursors (arrow keys + WASD)
     this._cursors = scene.input.keyboard.createCursorKeys();
-    this._wasd    = scene.input.keyboard.addKeys({
-      up:    Phaser.Input.Keyboard.KeyCodes.W,
-      down:  Phaser.Input.Keyboard.KeyCodes.S,
-      left:  Phaser.Input.Keyboard.KeyCodes.A,
+    this._wasd = scene.input.keyboard.addKeys({
+      up: Phaser.Input.Keyboard.KeyCodes.W,
+      down: Phaser.Input.Keyboard.KeyCodes.S,
+      left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
 
@@ -74,10 +74,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     let vx = 0;
     let vy = 0;
 
-    if (left.isDown  || w.left.isDown)  vx = -PLAYER_SPEED;
-    if (right.isDown || w.right.isDown) vx =  PLAYER_SPEED;
-    if (up.isDown    || w.up.isDown)    vy = -PLAYER_SPEED;
-    if (down.isDown  || w.down.isDown)  vy =  PLAYER_SPEED;
+    if (left.isDown || w.left.isDown) vx = -PLAYER_SPEED;
+    if (right.isDown || w.right.isDown) vx = PLAYER_SPEED;
+    if (up.isDown || w.up.isDown) vy = -PLAYER_SPEED;
+    if (down.isDown || w.down.isDown) vy = PLAYER_SPEED;
 
     // Normalise diagonal speed so moving diagonally isn't faster
     if (vx !== 0 && vy !== 0) {
@@ -93,24 +93,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     if (!Phaser.Input.Keyboard.JustDown(this._interactKey)) return;
 
     // Find the closest interactable object within range
-    let closest     = null;
+    let closest = null;
     let closestDist = Infinity;
 
     for (const obj of this.nearbyObjects) {
       const dist = Phaser.Math.Distance.Between(this.x, this.y, obj.x, obj.y);
       if (dist < INTERACT_RADIUS && dist < closestDist) {
         closestDist = dist;
-        closest     = obj;
+        closest = obj;
       }
     }
 
     if (closest) {
       // The scene listens to this event and decides what to do
-      this.emit('interact', closest);
+      this.emit("interact", closest);
     }
   }
 }
 
 // Module-level constants that depend on config but avoid a circular import
-const TILE_SIZE_BODY  = 22;
+const TILE_SIZE_BODY = 22;
 const DIAGONAL_FACTOR = Math.SQRT1_2; // 1/√2 ≈ 0.707

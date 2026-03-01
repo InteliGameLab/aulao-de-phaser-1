@@ -9,7 +9,7 @@
  * from GameScene or other gameplay scenes.
  */
 
-import { SCENES, TILE_SIZE, COLORS } from '../config.js';
+import { SCENES, TILE_SIZE, COLORS } from "../config.js";
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -21,7 +21,7 @@ export class PreloadScene extends Phaser.Scene {
     this._buildLoadingBar();
 
     // Read the manifest that BootScene already loaded into the JSON cache.
-    const manifest = this.cache.json.get('assets');
+    const manifest = this.cache.json.get("assets");
 
     // Dynamically register every asset from the manifest.
     // When you add a new asset, edit assets.json — no code change needed here.
@@ -61,18 +61,22 @@ export class PreloadScene extends Phaser.Scene {
     const cx = this.cameras.main.centerX;
     const cy = this.cameras.main.centerY;
 
-    this.add.text(cx, cy - 50, 'Carregando...', {
-      fontSize: '20px',
-      color: '#ffffff',
-    }).setOrigin(0.5);
+    this.add
+      .text(cx, cy - 50, "Carregando...", {
+        fontSize: "20px",
+        color: "#ffffff",
+      })
+      .setOrigin(0.5);
 
     // Background track
     const barBg = this.add.rectangle(cx, cy, 320, 20, 0x333333);
 
     // Filled portion — updated via loader events
-    const bar = this.add.rectangle(cx - 160, cy, 0, 20, 0x3399ff).setOrigin(0, 0.5);
+    const bar = this.add
+      .rectangle(cx - 160, cy, 0, 20, 0x3399ff)
+      .setOrigin(0, 0.5);
 
-    this.load.on('progress', (value) => {
+    this.load.on("progress", (value) => {
       bar.width = 320 * value;
     });
   }
@@ -87,7 +91,7 @@ export class PreloadScene extends Phaser.Scene {
 
     // ── Tileset ─────────────────────────────────────────────────────────────
     // Two tiles side by side in one image: [floor | wall]
-    if (!this.textures.exists('tileset')) {
+    if (!this.textures.exists("tileset")) {
       g.clear();
       // Floor tile (index 0, GID 1)
       g.fillStyle(COLORS.FLOOR);
@@ -101,11 +105,11 @@ export class PreloadScene extends Phaser.Scene {
       g.lineStyle(1, 0x000000, 0.3);
       g.strokeRect(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE);
 
-      g.generateTexture('tileset', TILE_SIZE * 2, TILE_SIZE);
+      g.generateTexture("tileset", TILE_SIZE * 2, TILE_SIZE);
     }
 
     // ── Dungeon tileset ──────────────────────────────────────────────────────
-    if (!this.textures.exists('tileset-dungeon')) {
+    if (!this.textures.exists("tileset-dungeon")) {
       g.clear();
       // Floor (darker, stone-like)
       g.fillStyle(0x2d2d4e);
@@ -119,37 +123,40 @@ export class PreloadScene extends Phaser.Scene {
       g.lineStyle(2, 0x444466, 0.6);
       g.strokeRect(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE);
 
-      g.generateTexture('tileset-dungeon', TILE_SIZE * 2, TILE_SIZE);
+      g.generateTexture("tileset-dungeon", TILE_SIZE * 2, TILE_SIZE);
     }
 
     // ── Player ───────────────────────────────────────────────────────────────
-    if (!this.textures.exists('player')) {
+    if (!this.textures.exists("player")) {
       g.clear();
       g.fillStyle(COLORS.PLAYER);
       g.fillRect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
       // Small triangle pointing up — shows facing direction
       g.fillStyle(0xffffff);
       g.fillTriangle(
-        TILE_SIZE / 2, 4,
-        TILE_SIZE / 2 - 6, 14,
-        TILE_SIZE / 2 + 6, 14,
+        TILE_SIZE / 2,
+        4,
+        TILE_SIZE / 2 - 6,
+        14,
+        TILE_SIZE / 2 + 6,
+        14,
       );
-      g.generateTexture('player', TILE_SIZE, TILE_SIZE);
+      g.generateTexture("player", TILE_SIZE, TILE_SIZE);
     }
 
     // ── NPC ──────────────────────────────────────────────────────────────────
-    if (!this.textures.exists('npc')) {
+    if (!this.textures.exists("npc")) {
       g.clear();
       g.fillStyle(COLORS.NPC);
       g.fillRect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
       // Small dot in the centre
       g.fillStyle(0xffffff);
       g.fillCircle(TILE_SIZE / 2, TILE_SIZE / 2, 4);
-      g.generateTexture('npc', TILE_SIZE, TILE_SIZE);
+      g.generateTexture("npc", TILE_SIZE, TILE_SIZE);
     }
 
     // ── Enemy ────────────────────────────────────────────────────────────────
-    if (!this.textures.exists('enemy')) {
+    if (!this.textures.exists("enemy")) {
       g.clear();
       g.fillStyle(COLORS.ENEMY);
       g.fillRect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
@@ -157,25 +164,25 @@ export class PreloadScene extends Phaser.Scene {
       g.lineStyle(3, 0xffffff);
       g.lineBetween(8, 8, TILE_SIZE - 8, TILE_SIZE - 8);
       g.lineBetween(TILE_SIZE - 8, 8, 8, TILE_SIZE - 8);
-      g.generateTexture('enemy', TILE_SIZE, TILE_SIZE);
+      g.generateTexture("enemy", TILE_SIZE, TILE_SIZE);
     }
 
     // ── Portal ───────────────────────────────────────────────────────────────
-    if (!this.textures.exists('portal')) {
+    if (!this.textures.exists("portal")) {
       g.clear();
       g.fillStyle(COLORS.PORTAL, 0.85);
       g.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
       g.lineStyle(2, 0xffffff, 0.9);
       g.strokeRect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
-      g.generateTexture('portal', TILE_SIZE, TILE_SIZE);
+      g.generateTexture("portal", TILE_SIZE, TILE_SIZE);
     }
 
     // ── Interact indicator "!" ────────────────────────────────────────────────
-    if (!this.textures.exists('indicator')) {
+    if (!this.textures.exists("indicator")) {
       g.clear();
       g.fillStyle(0xffdd00);
       g.fillCircle(10, 10, 10);
-      g.generateTexture('indicator', 20, 20);
+      g.generateTexture("indicator", 20, 20);
     }
 
     g.destroy();

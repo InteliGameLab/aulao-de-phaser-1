@@ -9,7 +9,7 @@
  * Keeping Boot small means the very first frame appears quickly.
  */
 
-import { SCENES } from '../config.js';
+import { SCENES } from "../config.js";
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -18,7 +18,7 @@ export class BootScene extends Phaser.Scene {
 
   preload() {
     // Load ONLY the asset manifest. Everything else is PreloadScene's job.
-    this.load.json('assets', 'assets/assets.json');
+    this.load.json("assets", "assets/assets.json");
   }
 
   create() {

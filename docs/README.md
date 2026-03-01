@@ -33,21 +33,21 @@
 
 ## 1. Visão geral do projeto
 
-**Phaser Quest** é um RPG top-down minimalista com dois mapas: uma *cidade* e uma *dungeon*.
+**Phaser Quest** é um RPG top-down minimalista com dois mapas: uma _cidade_ e uma _dungeon_.
 
-| Funcionalidade | Como é demonstrada |
-|---|---|
-| Configurações globais | `src/config.js` — uma única fonte da verdade |
-| Carregamento de assets via JSON | `assets/assets.json` + `PreloadScene` |
-| Separação de arquivos por funcionalidade | `scenes/`, `entities/`, `ui/`, `utils/` |
-| Entidades como classes | `Player`, `NPC`, `Enemy` estendem `Phaser.Physics.Arcade.Sprite` |
-| Herança para reaproveitamento | `BaseGameScene` ← `GameScene` / `DungeonScene` |
-| Mapas Tiled com colisão | Camada *Walls* + `setCollisionByExclusion([-1])` |
-| Spawns via camada de objetos do Tiled | `map.getObjectLayer('Objects').objects` |
-| Transição de cenas | `cameras.main.fadeOut` + `scene.start()` |
-| Scene paralela (HUD/dialog) | `scene.launch(SCENES.UI)` |
-| Comunicação entre scenes | `this.game.events.emit/on` |
-| Física arcade | Colisores (`add.collider`) e overlaps (`add.overlap`) |
+| Funcionalidade                           | Como é demonstrada                                               |
+| ---------------------------------------- | ---------------------------------------------------------------- |
+| Configurações globais                    | `src/config.js` — uma única fonte da verdade                     |
+| Carregamento de assets via JSON          | `assets/assets.json` + `PreloadScene`                            |
+| Separação de arquivos por funcionalidade | `scenes/`, `entities/`, `ui/`, `utils/`                          |
+| Entidades como classes                   | `Player`, `NPC`, `Enemy` estendem `Phaser.Physics.Arcade.Sprite` |
+| Herança para reaproveitamento            | `BaseGameScene` ← `GameScene` / `DungeonScene`                   |
+| Mapas Tiled com colisão                  | Camada _Walls_ + `setCollisionByExclusion([-1])`                 |
+| Spawns via camada de objetos do Tiled    | `map.getObjectLayer('Objects').objects`                          |
+| Transição de cenas                       | `cameras.main.fadeOut` + `scene.start()`                         |
+| Scene paralela (HUD/dialog)              | `scene.launch(SCENES.UI)`                                        |
+| Comunicação entre scenes                 | `this.game.events.emit/on`                                       |
+| Física arcade                            | Colisores (`add.collider`) e overlaps (`add.overlap`)            |
 
 ---
 
@@ -157,18 +157,18 @@ Centralizar tudo em `config.js` facilita ajustes e evita bugs difíceis de achar
 
 ```js
 // src/config.js
-export const GAME_WIDTH  = 800;
+export const GAME_WIDTH = 800;
 export const GAME_HEIGHT = 600;
-export const TILE_SIZE   = 32;
+export const TILE_SIZE = 32;
 export const PLAYER_SPEED = 160;
 
 export const SCENES = {
-  BOOT:    'Boot',
-  PRELOAD: 'Preload',
-  MENU:    'Menu',
-  GAME:    'GameScene',
-  DUNGEON: 'DungeonScene',
-  UI:      'UI',
+  BOOT: "Boot",
+  PRELOAD: "Preload",
+  MENU: "Menu",
+  GAME: "GameScene",
+  DUNGEON: "DungeonScene",
+  UI: "UI",
 };
 ```
 
@@ -181,16 +181,16 @@ export const SCENES = {
 
 ```js
 // src/main.js
-import { BootScene } from './scenes/BootScene.js';
+import { BootScene } from "./scenes/BootScene.js";
 // ... outros imports
 
 const config = {
-  type:   Phaser.AUTO,      // WebGL se disponível, senão Canvas
-  width:  GAME_WIDTH,
+  type: Phaser.AUTO, // WebGL se disponível, senão Canvas
+  width: GAME_WIDTH,
   height: GAME_HEIGHT,
   physics: {
-    default: 'arcade',
-    arcade:  { debug: false },
+    default: "arcade",
+    arcade: { debug: false },
   },
   scene: [BootScene, PreloadScene, MenuScene, GameScene, DungeonScene, UIScene],
 };
@@ -200,11 +200,11 @@ new Phaser.Game(config);
 
 **Pontos a destacar:**
 
-| Propriedade | O que ensina |
-|---|---|
-| `type: Phaser.AUTO` | Phaser detecta automaticamente o melhor renderer |
-| `physics.arcade` | Física simples AABB — ideal para top-down 2D |
-| `scene: [...]` | A primeira scene da lista é iniciada automaticamente |
+| Propriedade         | O que ensina                                         |
+| ------------------- | ---------------------------------------------------- |
+| `type: Phaser.AUTO` | Phaser detecta automaticamente o melhor renderer     |
+| `physics.arcade`    | Física simples AABB — ideal para top-down 2D         |
+| `scene: [...]`      | A primeira scene da lista é iniciada automaticamente |
 
 ---
 
@@ -227,9 +227,9 @@ Cada método tem uma responsabilidade clara — misturá-los cria código confus
 
 ### Por que duas scenes?
 
-| Scene | Responsabilidade |
-|---|---|
-| **BootScene** | Carrega APENAS o manifesto `assets.json` (arquivo minúsculo) |
+| Scene            | Responsabilidade                                                    |
+| ---------------- | ------------------------------------------------------------------- |
+| **BootScene**    | Carrega APENAS o manifesto `assets.json` (arquivo minúsculo)        |
 | **PreloadScene** | Lê o manifesto e carrega TODOS os assets; mostra barra de progresso |
 
 Separar assim garante que a tela nunca fique em branco e que o código de loading seja reutilizável.
@@ -255,16 +255,14 @@ preload() {
 
 ```json
 {
-  "images":       [],
+  "images": [],
   "spritesheets": [],
-  "tilemaps":  [
-    { "key": "town",    "path": "assets/maps/town.json"    },
+  "tilemaps": [
+    { "key": "town", "path": "assets/maps/town.json" },
     { "key": "dungeon", "path": "assets/maps/dungeon.json" }
   ],
-  "tilesets":  [
-    { "key": "tileset", "path": "assets/tilesets/tileset.png" }
-  ],
-  "audio":        []
+  "tilesets": [{ "key": "tileset", "path": "assets/tilesets/tileset.png" }],
+  "audio": []
 }
 ```
 
@@ -295,9 +293,9 @@ manifest.tilesets.forEach(({ key, path }) => {
 ```js
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'player');    // chave da textura
+    super(scene, x, y, "player"); // chave da textura
 
-    scene.add.existing(this);        // adiciona ao display list da scene
+    scene.add.existing(this); // adiciona ao display list da scene
     scene.physics.add.existing(this); // cria um physics body para ele
 
     this.setCollideWorldBounds(true); // não sai do mapa
@@ -306,8 +304,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 ```
 
 **Hierarquia de classes** é uma boa prática porque:
+
 - Cada entidade encapsula sua própria lógica
-- A scene não precisa saber *como* o player se move — só chama `player.update()`
+- A scene não precisa saber _como_ o player se move — só chama `player.update()`
 - Fácil de trocar implementações sem quebrar nada
 
 ---
@@ -333,7 +332,7 @@ update() {
 
 ```js
 if (vx !== 0 && vy !== 0) {
-  vx *= Math.SQRT1_2;  // ≈ 0.707
+  vx *= Math.SQRT1_2; // ≈ 0.707
   vy *= Math.SQRT1_2;
 }
 ```
@@ -343,7 +342,7 @@ if (vx !== 0 && vy !== 0) {
 ```js
 // JustDown → true apenas no PRIMEIRO frame em que a tecla é pressionada
 if (Phaser.Input.Keyboard.JustDown(this._interactKey)) {
-  this.emit('interact', closestObject);
+  this.emit("interact", closestObject);
 }
 ```
 
@@ -353,19 +352,19 @@ if (Phaser.Input.Keyboard.JustDown(this._interactKey)) {
 
 ### Dados de diálogo no Tiled
 
-No **Tiled Map Editor**, crie um objeto na camada *Objects* com:
+No **Tiled Map Editor**, crie um objeto na camada _Objects_ com:
 
-| Campo | Valor |
-|---|---|
-| **Type** | `npc` |
-| **Name** | `Professor Phaser` |
+| Campo                         | Valor                          |
+| ----------------------------- | ------------------------------ |
+| **Type**                      | `npc`                          |
+| **Name**                      | `Professor Phaser`             |
 | Propriedade `dialog` (string) | `Página 1\|Página 2\|Página 3` |
 
 O separador `|` divide a string em páginas:
 
 ```js
 // src/entities/NPC.js
-this.dialogPages = dialogRaw.split('|').map(s => s.trim());
+this.dialogPages = dialogRaw.split("|").map((s) => s.trim());
 ```
 
 ### Fluxo de diálogo
@@ -405,16 +404,16 @@ Player.blocked = false
 ```js
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, range = 4) {
-    super(scene, x, y, 'enemy');
+    super(scene, x, y, "enemy");
     // ...
-    this._leftBound  = x - range * TILE_SIZE;
+    this._leftBound = x - range * TILE_SIZE;
     this._rightBound = x + range * TILE_SIZE;
     this.setVelocityX(ENEMY_SPEED);
   }
 
   update() {
     if (this.x >= this._rightBound) this.setVelocityX(-ENEMY_SPEED);
-    if (this.x <= this._leftBound)  this.setVelocityX( ENEMY_SPEED);
+    if (this.x <= this._leftBound) this.setVelocityX(ENEMY_SPEED);
   }
 }
 ```
@@ -428,20 +427,20 @@ tiles ele patrulha para cada lado. Isso evita hard-code de posições no código
 
 ### Configuração do Tiled
 
-1. **Novo mapa:** `Arquivo → Novo mapa`  
-   - Orientação: Ortogonal  
-   - Tamanho do tile: 32×32  
+1. **Novo mapa:** `Arquivo → Novo mapa`
+   - Orientação: Ortogonal
+   - Tamanho do tile: 32×32
    - Tamanho do mapa: quantos tiles quiser
 
 2. **Tileset:** `Mapa → Novo Tileset → imagem tileset.png`
 
 3. **Camadas necessárias:**
 
-   | Nome | Tipo | Para quê |
-   |---|---|---|
-   | `Ground` | Tile Layer | Piso — sem colisão |
-   | `Walls`  | Tile Layer | Paredes — colisão automática |
-   | `Objects`| Object Layer | Spawns de player, NPCs, portais, inimigos |
+   | Nome      | Tipo         | Para quê                                  |
+   | --------- | ------------ | ----------------------------------------- |
+   | `Ground`  | Tile Layer   | Piso — sem colisão                        |
+   | `Walls`   | Tile Layer   | Paredes — colisão automática              |
+   | `Objects` | Object Layer | Spawns de player, NPCs, portais, inimigos |
 
 4. **Exportar:** `Arquivo → Exportar como → JSON (*.json)`  
    Salve em `assets/maps/nome-do-mapa.json`.
@@ -450,15 +449,15 @@ tiles ele patrulha para cada lado. Isso evita hard-code de posições no código
 
 ```js
 // PreloadScene.preload()
-this.load.tilemapTiledJSON('town', 'assets/maps/town.json');
-this.load.image('tileset', 'assets/tilesets/tileset.png');
+this.load.tilemapTiledJSON("town", "assets/maps/town.json");
+this.load.image("tileset", "assets/tilesets/tileset.png");
 
 // GameScene.create()
-const map     = this.make.tilemap({ key: 'town' });
-const tileset = map.addTilesetImage('tileset', 'tileset'); // (nomeTiled, chavePhaer)
+const map = this.make.tilemap({ key: "town" });
+const tileset = map.addTilesetImage("tileset", "tileset"); // (nomeTiled, chavePhaer)
 
-const ground = map.createLayer('Ground', tileset, 0, 0);
-const walls  = map.createLayer('Walls',  tileset, 0, 0);
+const ground = map.createLayer("Ground", tileset, 0, 0);
+const walls = map.createLayer("Walls", tileset, 0, 0);
 
 // Qualquer tile não-vazio na camada Walls é sólido
 walls.setCollisionByExclusion([-1]);
@@ -470,18 +469,18 @@ this.physics.add.collider(this.player, walls);
 ### Ler objetos do Tiled
 
 ```js
-const objectLayer = map.getObjectLayer('Objects');
+const objectLayer = map.getObjectLayer("Objects");
 
-objectLayer.objects.forEach(obj => {
-  if (obj.type === 'npc') {
-    const dialogRaw = obj.properties.find(p => p.name === 'dialog').value;
+objectLayer.objects.forEach((obj) => {
+  if (obj.type === "npc") {
+    const dialogRaw = obj.properties.find((p) => p.name === "dialog").value;
     new NPC(this, obj.x, obj.y, obj.name, dialogRaw);
   }
 });
 ```
 
 > **Posição Y no Tiled:** a coordenada Y de um objeto Tiled aponta para a borda  
-> *inferior* do tile. Somamos `- TILE_SIZE / 2` para centrar o sprite.
+> _inferior_ do tile. Somamos `- TILE_SIZE / 2` para centrar o sprite.
 
 ---
 
@@ -502,9 +501,15 @@ BaseGameScene (lógica compartilhada)
 ```js
 // Subclasse só precisa declarar o que muda
 export class GameScene extends BaseGameScene {
-  get mapKey()     { return 'town';    }
-  get tilesetKey() { return 'tileset'; }
-  get bgColor()    { return '#2d5a1b'; }
+  get mapKey() {
+    return "town";
+  }
+  get tilesetKey() {
+    return "tileset";
+  }
+  get bgColor() {
+    return "#2d5a1b";
+  }
 
   create() {
     super.create();
@@ -553,9 +558,9 @@ MenuScene._startGame()
 
 `scene.launch()` vs `scene.start()`:
 
-| Método | O que faz |
-|---|---|
-| `scene.start(key)` | Para a scene atual e inicia outra |
+| Método              | O que faz                                    |
+| ------------------- | -------------------------------------------- |
+| `scene.start(key)`  | Para a scene atual e inicia outra            |
 | `scene.launch(key)` | Inicia outra scene EM PARALELO (ambas rodam) |
 
 A UIScene fica viva durante toda a sessão de jogo — gerencia a `DialogBox`  
@@ -570,12 +575,16 @@ Scenes não devem ter referências diretas umas às outras. Usamos o
 
 ```js
 // GameScene emite quando o player inicia um diálogo
-this.game.events.emit('dialog:open', { speaker: 'NPC', pages: ['...'] });
+this.game.events.emit("dialog:open", { speaker: "NPC", pages: ["..."] });
 
 // UIScene escuta
-this.game.events.on('dialog:open', (data) => {
-  this._dialog.open(data);
-}, this);
+this.game.events.on(
+  "dialog:open",
+  (data) => {
+    this._dialog.open(data);
+  },
+  this,
+);
 ```
 
 **Vantagem:** GameScene não precisa saber que UIScene existe.  
@@ -607,16 +616,27 @@ assets/
 // assets/assets.json
 {
   "spritesheets": [
-    { "key": "player", "path": "assets/sprites/player.png", "frameWidth": 32, "frameHeight": 32 },
-    { "key": "npc",    "path": "assets/sprites/npc.png",    "frameWidth": 32, "frameHeight": 32 },
-    { "key": "enemy",  "path": "assets/sprites/enemy.png",  "frameWidth": 32, "frameHeight": 32 }
+    {
+      "key": "player",
+      "path": "assets/sprites/player.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "npc",
+      "path": "assets/sprites/npc.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "enemy",
+      "path": "assets/sprites/enemy.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    }
   ],
-  "tilesets": [
-    { "key": "tileset", "path": "assets/tilesets/tileset.png" }
-  ],
-  "audio": [
-    { "key": "bgm", "path": "assets/audio/bgm.ogg" }
-  ]
+  "tilesets": [{ "key": "tileset", "path": "assets/tilesets/tileset.png" }],
+  "audio": [{ "key": "bgm", "path": "assets/audio/bgm.ogg" }]
 }
 ```
 
@@ -626,10 +646,10 @@ No `PreloadScene.create()`, adicione:
 
 ```js
 this.anims.create({
-  key:       'player-walk-down',
-  frames:    this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+  key: "player-walk-down",
+  frames: this.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
   frameRate: 8,
-  repeat:    -1,
+  repeat: -1,
 });
 ```
 
@@ -637,10 +657,10 @@ this.anims.create({
 
 ```js
 // src/entities/Player.js — no método _handleMovement()
-if (vy < 0) this.play('player-walk-up',    true);
-if (vy > 0) this.play('player-walk-down',  true);
-if (vx < 0) this.play('player-walk-left',  true);
-if (vx > 0) this.play('player-walk-right', true);
+if (vy < 0) this.play("player-walk-up", true);
+if (vy > 0) this.play("player-walk-down", true);
+if (vx < 0) this.play("player-walk-left", true);
+if (vx > 0) this.play("player-walk-right", true);
 if (vx === 0 && vy === 0) this.stop();
 ```
 
@@ -787,4 +807,4 @@ Siga a seção [19 — Substituindo os placeholders](#19-substituindo-os-placeho
 
 ---
 
-*Bom live coding! 🎮*
+_Bom live coding! 🎮_

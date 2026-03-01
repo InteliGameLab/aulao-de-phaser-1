@@ -8,21 +8,27 @@
  *   - Player ↔ enemy overlap (warning message)
  */
 
-import { SCENES, EVENTS } from '../config.js';
-import { BaseGameScene  } from './BaseGameScene.js';
-import { Enemy          } from '../entities/Enemy.js';
+import { SCENES, EVENTS } from "../config.js";
+import { BaseGameScene } from "./BaseGameScene.js";
+import { Enemy } from "../entities/Enemy.js";
 
 export class DungeonScene extends BaseGameScene {
   constructor() {
     super({ key: SCENES.DUNGEON });
   }
 
-  get mapKey()     { return 'dungeon';        }
-  get tilesetKey() { return 'tileset-dungeon'; }
-  get bgColor()    { return '#0d0d1a';         }  // near-black — underground
+  get mapKey() {
+    return "dungeon";
+  }
+  get tilesetKey() {
+    return "tileset-dungeon";
+  }
+  get bgColor() {
+    return "#0d0d1a";
+  } // near-black — underground
 
   create() {
-    super.create();  // BaseGameScene sets up map, player, NPCs, portals
+    super.create(); // BaseGameScene sets up map, player, NPCs, portals
 
     this._enemyHitCooldown = false;
 
@@ -33,10 +39,8 @@ export class DungeonScene extends BaseGameScene {
     this.physics.add.collider(this._enemyGroup, this._wallsLayer);
 
     // Player ↔ enemy overlap → show a dialog warning
-    this.physics.add.overlap(
-      this._player,
-      this._enemyGroup,
-      () => this._onEnemyContact(),
+    this.physics.add.overlap(this._player, this._enemyGroup, () =>
+      this._onEnemyContact(),
     );
 
     // After the enemy-hit dialog closes, wait 1.5 s before allowing another hit.
@@ -50,7 +54,7 @@ export class DungeonScene extends BaseGameScene {
   // ─── enemy spawning (overrides the no-op in BaseGameScene) ───────────────
 
   _spawnEnemy(x, y, obj) {
-    const range = this._getProp(obj, 'range') ?? 4;
+    const range = this._getProp(obj, "range") ?? 4;
     const enemy = new Enemy(this, x, y, range);
     this._enemies.push(enemy);
   }
@@ -65,7 +69,9 @@ export class DungeonScene extends BaseGameScene {
 
   _onEnemyDialogClose() {
     if (this._enemyHitCooldown) {
-      this.time.delayedCall(1500, () => { this._enemyHitCooldown = false; });
+      this.time.delayedCall(1500, () => {
+        this._enemyHitCooldown = false;
+      });
     }
   }
 
@@ -77,11 +83,14 @@ export class DungeonScene extends BaseGameScene {
     // standing on the enemy after the dialog closes.
     if (this._enemyHitCooldown) return;
 
-    this._enemyHitCooldown = true;  // cleared by the DIALOG_CLOSE listener above
+    this._enemyHitCooldown = true; // cleared by the DIALOG_CLOSE listener above
 
     this.game.events.emit(EVENTS.DIALOG_OPEN, {
-      speaker: 'Sistema',
-      pages:   ['Cuidado! Um inimigo te acertou.', 'Em jogos reais você perderia vida aqui!'],
+      speaker: "Sistema",
+      pages: [
+        "Cuidado! Um inimigo te acertou.",
+        "Em jogos reais você perderia vida aqui!",
+      ],
     });
   }
 }

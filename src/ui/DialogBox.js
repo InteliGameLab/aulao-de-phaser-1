@@ -14,11 +14,11 @@
  *   └─────────────────────────────────────────┘
  */
 
-import { GAME_WIDTH, GAME_HEIGHT, COLORS, EVENTS } from '../config.js';
+import { GAME_WIDTH, GAME_HEIGHT, COLORS, EVENTS } from "../config.js";
 
-const BOX_HEIGHT  = 130;
-const BOX_MARGIN  = 16;
-const BOX_Y       = GAME_HEIGHT - BOX_HEIGHT - BOX_MARGIN;
+const BOX_HEIGHT = 130;
+const BOX_MARGIN = 16;
+const BOX_Y = GAME_HEIGHT - BOX_HEIGHT - BOX_MARGIN;
 const TEXT_MARGIN = 16;
 
 export class DialogBox {
@@ -26,10 +26,10 @@ export class DialogBox {
    * @param {Phaser.Scene} scene - The UIScene that owns this box
    */
   constructor(scene) {
-    this._scene  = scene;
-    this._pages  = [];
-    this._index  = 0;
-    this._active     = false;
+    this._scene = scene;
+    this._pages = [];
+    this._index = 0;
+    this._active = false;
     this._canAdvance = false;
 
     this._buildGraphics();
@@ -43,10 +43,10 @@ export class DialogBox {
    * @param {{ speaker: string, pages: string[] }} data
    */
   open(data) {
-    this._pages  = data.pages;
-    this._index     = 0;
-    this._active    = true;
-    this._canAdvance = false;  // block input on the same frame the dialog opens
+    this._pages = data.pages;
+    this._index = 0;
+    this._active = true;
+    this._canAdvance = false; // block input on the same frame the dialog opens
 
     this._speakerText.setText(data.speaker);
     this._showPage(0);
@@ -55,7 +55,9 @@ export class DialogBox {
     // Parallel scenes process input AFTER the scene that opened the dialog runs
     // its update(). Without this delay the same keypress that opens the dialog
     // would immediately fire advance() and skip page 1 (or close a 1-page dialog).
-    this._scene.time.delayedCall(100, () => { this._canAdvance = true; });
+    this._scene.time.delayedCall(100, () => {
+      this._canAdvance = true;
+    });
   }
 
   /** Advance to the next page, or close if on the last page. */
@@ -71,7 +73,7 @@ export class DialogBox {
   }
 
   hide() {
-    this._active     = false;
+    this._active = false;
     this._canAdvance = false;
     this._container.setVisible(false);
 
@@ -94,16 +96,17 @@ export class DialogBox {
 
     // Background panel
     const bg = this._scene.add.rectangle(
-      boxX + boxW / 2, BOX_Y + BOX_HEIGHT / 2,
-      boxW, BOX_HEIGHT,
-      COLORS.DIALOG_BG, 0.88,
+      boxX + boxW / 2,
+      BOX_Y + BOX_HEIGHT / 2,
+      boxW,
+      BOX_HEIGHT,
+      COLORS.DIALOG_BG,
+      0.88,
     );
 
     // Border
-    const border = this._scene.add.rectangle(
-      boxX + boxW / 2, BOX_Y + BOX_HEIGHT / 2,
-      boxW, BOX_HEIGHT,
-    )
+    const border = this._scene.add
+      .rectangle(boxX + boxW / 2, BOX_Y + BOX_HEIGHT / 2, boxW, BOX_HEIGHT)
       .setStrokeStyle(2, COLORS.DIALOG_BORDER, 1)
       .setFillStyle(0x000000, 0);
 
@@ -111,40 +114,46 @@ export class DialogBox {
     this._speakerText = this._scene.add.text(
       boxX + TEXT_MARGIN,
       BOX_Y + TEXT_MARGIN,
-      '',
-      { fontSize: '14px', color: '#ffdd00', fontStyle: 'bold' },
+      "",
+      { fontSize: "14px", color: "#ffdd00", fontStyle: "bold" },
     );
 
     // Dialog body text — wordWrap keeps it inside the box
     this._bodyText = this._scene.add.text(
       boxX + TEXT_MARGIN,
       BOX_Y + TEXT_MARGIN + 24,
-      '',
+      "",
       {
-        fontSize: '14px',
-        color: '#ffffff',
+        fontSize: "14px",
+        color: "#ffffff",
         wordWrap: { width: boxW - TEXT_MARGIN * 2 },
         lineSpacing: 4,
       },
     );
 
     // "▼ PRÓXIMO / FECHAR" hint at the bottom-right
-    this._hintText = this._scene.add.text(
-      boxX + boxW - TEXT_MARGIN,
-      BOX_Y + BOX_HEIGHT - TEXT_MARGIN,
-      '',
-      { fontSize: '12px', color: '#aaaaaa' },
-    ).setOrigin(1, 1);
+    this._hintText = this._scene.add
+      .text(boxX + boxW - TEXT_MARGIN, BOX_Y + BOX_HEIGHT - TEXT_MARGIN, "", {
+        fontSize: "12px",
+        color: "#aaaaaa",
+      })
+      .setOrigin(1, 1);
 
-    this._container.add([bg, border, this._speakerText, this._bodyText, this._hintText]);
+    this._container.add([
+      bg,
+      border,
+      this._speakerText,
+      this._bodyText,
+      this._hintText,
+    ]);
 
     // Tween — slight bounce when text appears
     this._scene.tweens.add({
-      targets:  this._container,
-      alpha:    { from: 0, to: 1 },
+      targets: this._container,
+      alpha: { from: 0, to: 1 },
       duration: 200,
-      paused:   true,
-      onStart:  () => this._container.setVisible(true),
+      paused: true,
+      onStart: () => this._container.setVisible(true),
     });
   }
 
@@ -152,6 +161,8 @@ export class DialogBox {
     this._bodyText.setText(this._pages[index]);
 
     const isLast = index === this._pages.length - 1;
-    this._hintText.setText(isLast ? 'E / ESPAÇO  Fechar' : 'E / ESPAÇO  Próximo ▼');
+    this._hintText.setText(
+      isLast ? "E / ESPAÇO  Fechar" : "E / ESPAÇO  Próximo ▼",
+    );
   }
 }

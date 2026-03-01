@@ -22,7 +22,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
    * @param {number} range - patrol distance in tiles (default 4)
    */
   constructor(scene, x, y, range = 4) {
-    super(scene, x, y, 'enemy');
+    super(scene, x, y, "enemy");
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
@@ -31,7 +31,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
 
     // Patrol boundaries in world pixels
-    this._leftBound  = x - range * 32;
+    this._leftBound = x - range * 32;
     this._rightBound = x + range * 32;
 
     // Start moving right

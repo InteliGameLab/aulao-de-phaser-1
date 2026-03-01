@@ -9,8 +9,8 @@
  *   • Objects layer – player spawn, 3 NPCs, 1 portal to dungeon
  */
 
-import { SCENES } from '../config.js';
-import { BaseGameScene } from './BaseGameScene.js';
+import { SCENES } from "../config.js";
+import { BaseGameScene } from "./BaseGameScene.js";
 
 export class GameScene extends BaseGameScene {
   constructor() {
@@ -18,9 +18,15 @@ export class GameScene extends BaseGameScene {
   }
 
   // Tell BaseGameScene which map and tileset keys to use
-  get mapKey()     { return 'town';     }
-  get tilesetKey() { return 'tileset';  }
-  get bgColor()    { return '#2d5a1b';  }  // dark green — outdoors
+  get mapKey() {
+    return "town";
+  }
+  get tilesetKey() {
+    return "tileset";
+  }
+  get bgColor() {
+    return "#2d5a1b";
+  } // dark green — outdoors
 
   create() {
     super.create();
