@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phaser Quest — Aula de Phaser</title>
+
+  <!--
+    Phaser 3 carregado do CDN.
+    Boa prática: use uma versão fixa (não "latest") para evitar quebras inesperadas.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.min.js"></script>
+
+  <style>
+    /* Remove margens e barras de rolagem */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* O canvas do Phaser fica centralizado e nunca ultrapassa a tela */
+    canvas {
+      display: block;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    O script principal é carregado como módulo ES.
+
+    Isso nos permite usar `import` e `export` nativos do JavaScript,
+    separando o código em arquivos por responsabilidade — uma boa prática
+    fundamental em qualquer projeto moderno.
+
+    ⚠️  Módulos ES requerem um servidor HTTP para funcionar.
+        Localmente: use a extensão "Live Server" do VS Code,
+        ou rode `npx serve .` no terminal.
+        No GitHub Pages funciona diretamente por ser HTTPS.
+  -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "images": [],
+
+  "spritesheets": [],
+
+  "tilemaps": [
+    { "key": "town",    "path": "assets/maps/town.json"    },
+    { "key": "dungeon", "path": "assets/maps/dungeon.json" }
+  ],
+
+  "tilesets": [
+    { "key": "tileset", "path": "assets/tilesets/tileset.png" }
+  ],
+
+  "audio": []
+}
